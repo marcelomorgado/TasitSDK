@@ -1,6 +1,5 @@
 import Subscription from "./Subscription";
 import ProviderFactory from "./ProviderFactory";
-const config = require("config");
 
 // If necessary, we can create TransactionAction
 //  and/or MetaTxAction subclasses
@@ -17,7 +16,7 @@ export class Action extends Subscription {
     //  to handle with transactions events
     super(provider);
 
-    const { events } = config;
+    const { events } = ProviderFactory.getConfig();
     const { timeout } = events;
 
     this.#txPromise = txPromise.then(

@@ -1,4 +1,3 @@
-const ethers = require("ethers");
 const chai = require("chai");
 const expect = chai.expect;
 chai.use(require("chai-as-promised"));

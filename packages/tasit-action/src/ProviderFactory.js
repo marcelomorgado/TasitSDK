@@ -2,13 +2,56 @@ import "ethers/dist/shims.js";
 // Note: ethers SHOULD be imported from their main object
 // shims aren't injected with package import
 import { ethers } from "ethers";
-const config = require("config");
+import {
+  PROVIDER_NETWORK,
+  PROVIDER_TYPE,
+  PROVIDER_POLLING_INTERVAL,
+  PROVIDER_JSONRPC_URL,
+  PROVIDER_JSONRPC_PORT,
+  PROVIDER_JSONRPC_USER,
+  PROVIDER_JSONRPC_PASSWORD,
+  PROVIDER_JSONRPC_ALLOW_INSECURE,
+  INFURA_API_KEY,
+  ETHERSCAN_API_KEY,
+  EVENTS_TIMEOUT,
+} from "react-native-dotenv";
 
 const MAINNET = "mainnet";
 
 export class ProviderFactory {
+  // Since 'config' doesn't supported by expo/react-native we are using dotenv
+  // to handle config parameters for now.
+  // A solution like 'config' is better because allows user create dynamic configurations since the config file is a js file.
+  // As short term solution, we are keeping de code as before and using that parse ENV-to-object function.
+  static getConfig = () => {
+    return {
+      provider: {
+        network: PROVIDER_NETWORK,
+        provider: PROVIDER_TYPE,
+        pollingInterval: Number(PROVIDER_POLLING_INTERVAL),
+        jsonRpc: {
+          url: PROVIDER_JSONRPC_URL,
+          port: Number(PROVIDER_JSONRPC_PORT),
+          user: PROVIDER_JSONRPC_USER,
+          password: PROVIDER_JSONRPC_PASSWORD,
+          allowInsecure: Boolean(PROVIDER_JSONRPC_ALLOW_INSECURE),
+        },
+        infura: {
+          apiKey: INFURA_API_KEY,
+        },
+
+        etherscan: {
+          apiKey: ETHERSCAN_API_KEY,
+        },
+      },
+      events: {
+        timeout: Number(EVENTS_TIMEOUT),
+      },
+    };
+  };
+
   static getProvider = () => {
-    const { provider } = config;
+    const { provider } = ProviderFactory.getConfig();
     const json = provider;
     return ProviderFactory.createProvider(json);
   };

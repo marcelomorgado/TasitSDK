@@ -12,7 +12,7 @@ let wallet;
 let sampleContract;
 let testcaseSnaphotId;
 
-describe("ethers.js", () => {
+describe.only("ethers.js", () => {
   const provider = new ethers.providers.JsonRpcProvider();
   provider.pollingInterval = 50;
 
